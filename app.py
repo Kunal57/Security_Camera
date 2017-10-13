@@ -17,9 +17,11 @@ cap = cv2.VideoCapture('Shooting_Form.mp4')
 curr_frame = None
 prev_frame = None
 first_frame = True
+frame_counter = 0
 
 while True:
-  prev_frame = curr_frame
+  if frame_counter == 0:
+    prev_frame = curr_frame
   _, curr_frame = cap.read()
   if curr_frame is None:
     break
@@ -29,10 +31,13 @@ while True:
     prev_frame = curr_frame
     first_frame = False
 
-  # print(mse(curr_frame, prev_frame))
-  # print(ssim(curr_frame, prev_frame))
+  if frame_counter == 9:
+    # print(mse(curr_frame, prev_frame))
+    print(ssim(curr_frame, prev_frame))
+    frame_counter = 0
 
   cv2.imshow('app', curr_frame)
+  frame_counter = frame_counter + 1
 
   if cv2.waitKey(1) & 0xFF == ord('q'):
     break
